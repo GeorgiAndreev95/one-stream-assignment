@@ -1,0 +1,96 @@
+.movieCardContainer {
+    display: flex;
+    align-items: center;
+}
+
+.orderButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orderButtonIcon {
+    fill: white;
+    margin: 0 10px;
+    height: 30px;
+    width: 30px;
+}
+
+.orderButtonIcon:hover {
+    fill: black;
+}
+
+.orderButton:disabled .orderButtonIcon {
+    fill: gray;
+    cursor: default;
+}
+
+.movieContainer {
+    display: flex;
+    margin: 20px auto;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    flex: 1;
+}
+
+.movieContainer:hover {
+    scale: 1.01;
+}
+
+.imgContainer {
+    display: flex;
+    align-items: center;
+    flex-basis: 200px;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.imgContainer img {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+.movieDetails {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.genres {
+    margin: 20px 0;
+}
+
+.releaseDate {
+    color: lightblue;
+}
+
+.bottomDetails {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon {
+    stroke: white;
+    fill: none;
+    stroke-width: 1.5;
+    width: 40px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    color: rgb(255, 84, 84);
+}

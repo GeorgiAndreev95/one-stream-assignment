@@ -1,0 +1,78 @@
+.previewPage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.previewPage > h1 {
+    color: white;
+    margin: 10px auto;
+}
+
+.searchForm {
+    position: relative;
+    display: flex;
+    background: white;
+    height: 35px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.searchFormActive {
+    border-radius: 8px 8px 0 0;
+}
+
+.searchForm input {
+    width: 300px;
+    border: none;
+    padding: 10px;
+}
+
+.searchSuggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    border-radius: 0 0 8px 8px;
+}
+
+.searchSuggestions div {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.searchSuggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+.genreSelectContainer {
+    position: absolute;
+    top: 113px;
+    left: 500px;
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+    color: white;
+}
+
+.genreSelect {
+    font-size: 18px;
+}
+
+.moviesContainer {
+    max-width: 60%;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+
+@media (max-width: 1600px) {
+    .moviesContainer {
+        max-width: 80%;
+    }
+}

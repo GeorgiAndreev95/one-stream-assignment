@@ -1,0 +1,18 @@
+.chooseLanguageContainer {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: white;
+    gap: 10px;
+}
+
+.languageButton {
+    color: white;
+    padding: 5px;
+    border: 2px solid white;
+    border-radius: 8px;
+}
+
+.languageButtonActive {
+    background: rgba(9, 46, 61, 1);
+}

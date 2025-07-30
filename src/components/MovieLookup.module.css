@@ -1,0 +1,60 @@
+.pageTitle {
+    color: white;
+    margin: 50px;
+    text-align: center;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 400px;
+    width: 600px;
+    border: 2px dashed white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.input:hover {
+    background: rgba(202, 202, 202, 0.253);
+}
+
+.input p {
+    color: white;
+    font-size: 20px;
+}
+
+.cloudIcon {
+    height: 100px;
+    width: 100px;
+    fill: white;
+}
+
+.movieTitleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    gap: 10px;
+}
+
+.movieTitle {
+    display: flex;
+    gap: 8px;
+    color: white;
+    font-size: 20px;
+    font-weight: 450;
+    cursor: pointer;
+}
+
+.movieTitle input {
+    cursor: pointer;
+}
