@@ -75,11 +75,16 @@ const PreviewPage = () => {
     };
 
     const addToListHandler = (movie) => {
+        const genresToAdd = movie.genre_ids.map((id) => {
+            const genreToAdd = genres.find((element) => element.id === id);
+            return genreToAdd.name;
+        });
         const selectedMovie = {
             title: movie.title,
             isChecked: true,
-            movieDetails: movie,
+            movieDetails: { ...movie, genres: genresToAdd },
         };
+
         dispatch(setMovieList([...movieList, selectedMovie]));
         setSearchResults([]);
         setRawInput("");
