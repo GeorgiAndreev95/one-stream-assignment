@@ -56,40 +56,38 @@ const MovieLookup = () => {
 
     const onSearchHandler = async (event) => {
         event.preventDefault();
+        const selectedMovies = movieList.filter((movie) => movie.isChecked);
 
         const detailedMovieList = await Promise.all(
-            movieList.map(async (movie) => {
-                if (movie.isChecked) {
-                    try {
-                        const movieResult = await getMovie(movie.title);
-                        // console.log(movieResult.results[0]);
-                        return {
-                            ...movie,
-                            movieDetails: movieResult.results[0],
-                        };
-                    } catch (error) {
-                        console.error(`Error fetching ${movie.title}:`, error);
-                        return {
-                            ...movie,
-                            movieDetails: null,
-                        };
-                    }
+            selectedMovies.map(async (movie) => {
+                try {
+                    const movieResult = await getMovie(movie.title);
+                    return {
+                        ...movie,
+                        movieDetails: movieResult.results[0],
+                    };
+                } catch (error) {
+                    console.error(`Error fetching ${movie.title}:`, error);
                 }
-                return movie;
             })
         );
 
         const detailedMovieListWithGenre = detailedMovieList.map((movie) => {
-            const genresToAdd = movie.movieDetails.genre_ids.map((id) => {
-                const genreToAdd = genres.find((element) => element.id === id);
-                return genreToAdd.name;
-            });
+            if (!movie.movieDetails) return movie;
+
+            const genresToAdd =
+                movie.movieDetails.genre_ids.map((id) => {
+                    const genreToAdd = genres.find(
+                        (element) => element.id === id
+                    );
+                    return genreToAdd.name || "Unknown";
+                }) || [];
+
             return {
                 ...movie,
                 movieDetails: { ...movie.movieDetails, genres: genresToAdd },
             };
         });
-        console.log(detailedMovieListWithGenre);
 
         dispatch(setMovieList(detailedMovieListWithGenre));
     };
@@ -126,22 +124,24 @@ const MovieLookup = () => {
                         ) : (
                             <>
                                 <div className={classes.movieTitleContainer}>
-                                    {movieList.map((movie, index) => (
-                                        <div
-                                            className={classes.movieTitle}
-                                            key={index}
-                                            onClick={() =>
-                                                handleCheckboxChange(movie)
-                                            }
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={movie.isChecked}
-                                                readOnly
-                                            />
-                                            <p>{movie.title}</p>
-                                        </div>
-                                    ))}
+                                    <div className={classes.internalWrapper}>
+                                        {movieList.map((movie, index) => (
+                                            <div
+                                                className={classes.movieTitle}
+                                                key={index}
+                                                onClick={() =>
+                                                    handleCheckboxChange(movie)
+                                                }
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={movie.isChecked}
+                                                    readOnly
+                                                />
+                                                <p>{movie.title}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 <LanguagePicker />
                                 <Button onClickFn={onSearchHandler}>

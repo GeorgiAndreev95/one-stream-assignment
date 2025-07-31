@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { removeMovie, setMovieList } from "../slices/movieSlice";
@@ -6,10 +7,12 @@ import UpIcon from "../assets/arrow-up.svg?react";
 import DownIcon from "../assets/arrow-down.svg?react";
 import classes from "./MovieCard.module.css";
 
-const MovieCard = ({ movieDetails, movieIndex }) => {
-    const dispatch = useDispatch();
-    const movieList = useSelector((state) => state.movies.movieList);
-
+const MovieCard = ({
+    movieDetails,
+    movieIndex,
+    filteredMovies,
+    selectedGenre,
+}) => {
     const {
         id,
         backdrop_path,
@@ -20,6 +23,11 @@ const MovieCard = ({ movieDetails, movieIndex }) => {
         release_date,
         genres,
     } = movieDetails;
+    const dispatch = useDispatch();
+    const movieList = useSelector((state) => state.movies.movieList);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(title);
+    const [editedOverview, setEditedOverview] = useState(overview);
 
     const formattedDate = new Date(release_date).toLocaleDateString("en-GB", {
         year: "numeric",
@@ -55,24 +63,57 @@ const MovieCard = ({ movieDetails, movieIndex }) => {
         dispatch(setMovieList(updatedMovieList));
     };
 
+    const handleEditContent = () => {
+        if (isEditing) {
+            if (editedTitle !== title || editedOverview !== overview) {
+                const editedMovieList = movieList.map((movie) => {
+                    if (movie.movieDetails.id === id) {
+                        return {
+                            ...movie,
+                            movieDetails: {
+                                ...movieDetails,
+                                title: editedTitle,
+                                overview: editedOverview,
+                            },
+                        };
+                    } else {
+                        return movie;
+                    }
+                });
+                dispatch(setMovieList(editedMovieList));
+            }
+        }
+        setIsEditing((prev) => !prev);
+    };
+
+    const onTitleChangeHandler = (event) => {
+        setEditedTitle(event.target.value);
+    };
+
+    const onOverviewChangeHandler = (event) => {
+        setEditedOverview(event.target.value);
+    };
+
     return (
         <div className={classes.movieCardContainer}>
-            <div className={classes.orderButtons}>
-                <button
-                    className={classes.orderButton}
-                    onClick={handleMoveUp}
-                    disabled={movieIndex === 0}
-                >
-                    <UpIcon className={classes.orderButtonIcon} />
-                </button>
-                <button
-                    className={classes.orderButton}
-                    onClick={handleMoveDown}
-                    disabled={movieIndex === movieList.length - 1}
-                >
-                    <DownIcon className={classes.orderButtonIcon} />
-                </button>
-            </div>
+            {!selectedGenre && (
+                <div className={classes.orderButtons}>
+                    <button
+                        className={classes.orderButton}
+                        onClick={handleMoveUp}
+                        disabled={movieIndex === 0}
+                    >
+                        <UpIcon className={classes.orderButtonIcon} />
+                    </button>
+                    <button
+                        className={classes.orderButton}
+                        onClick={handleMoveDown}
+                        disabled={movieIndex === filteredMovies.length - 1}
+                    >
+                        <DownIcon className={classes.orderButtonIcon} />
+                    </button>
+                </div>
+            )}
             <div
                 className={classes.movieContainer}
                 style={{
@@ -89,12 +130,40 @@ const MovieCard = ({ movieDetails, movieIndex }) => {
                 </div>
                 <div className={classes.movieDetails}>
                     <div>
-                        <h1>{title}</h1>
+                        <div className={classes.titleBox}>
+                            {isEditing ? (
+                                <input
+                                    className={classes.editingTitle}
+                                    type="text"
+                                    placeholder={title}
+                                    value={editedTitle}
+                                    onChange={onTitleChangeHandler}
+                                />
+                            ) : (
+                                <h1>
+                                    {editedTitle !== title
+                                        ? editedTitle
+                                        : title}
+                                </h1>
+                            )}
+                            <button onClick={handleEditContent}>
+                                {isEditing ? "Finish Editing" : "Edit Content"}
+                            </button>
+                        </div>
 
                         <p className={classes.releaseDate}>
                             Release Date: {formattedDate}
                         </p>
-                        <p>{overview}</p>
+                        {isEditing ? (
+                            <textarea
+                                className={classes.editingOverview}
+                                placeholder={overview}
+                                value={editedOverview}
+                                onChange={onOverviewChangeHandler}
+                            />
+                        ) : (
+                            <p>{overview}</p>
+                        )}
                         <div className={classes.genres}>
                             {genres.map((genre) => (
                                 <p key={genre}>{genre}</p>

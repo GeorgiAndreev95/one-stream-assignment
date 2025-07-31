@@ -23,7 +23,6 @@ export const getGenres = async () => {
         const { data } = await axiosInstance.get(
             `/genre/movie/list?language=${selectedLanguage}`
         );
-        console.log(data.genres);
         return data.genres;
     } catch (error) {
         console.log(error);

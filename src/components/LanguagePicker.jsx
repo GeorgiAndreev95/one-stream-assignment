@@ -7,7 +7,6 @@ const LanguagePicker = () => {
     const dispatch = useDispatch();
     const selectedLanguage = useSelector((state) => state.movies.language);
 
-    console.log(selectedLanguage);
     const onEnglishHandler = () => {
         if (selectedLanguage === "en-US") {
             return;

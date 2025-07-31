@@ -22,7 +22,7 @@ export const movieSlice = createSlice({
         removeMovie: (state, action) => {
             const movieId = action.payload;
             state.movieList = state.movieList.filter(
-                (movie) => movie.movieDetails.id !== movieId
+                (movie) => movie.movieDetails?.id !== movieId
             );
         },
     },

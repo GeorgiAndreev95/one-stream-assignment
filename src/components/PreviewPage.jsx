@@ -19,7 +19,7 @@ const PreviewPage = () => {
     const finalMovieList = useMemo(() => {
         if (selectedGenre) {
             return movieList.filter((movie) =>
-                movie.movieDetails.genre_ids.includes(+selectedGenre)
+                movie.movieDetails?.genre_ids.includes(+selectedGenre)
             );
         } else {
             return movieList;
@@ -64,6 +64,7 @@ const PreviewPage = () => {
             .map((movie) => ({
                 ...movie.movieDetails,
             }));
+
         console.log(selectedMovies);
 
         try {
@@ -93,8 +94,6 @@ const PreviewPage = () => {
     const handleGenreChange = (event) => {
         setSelectedGenre(event.target.value);
     };
-
-    console.log(finalMovieList);
 
     return (
         <div className={classes.previewPage}>
@@ -149,15 +148,21 @@ const PreviewPage = () => {
                 </select>
             </div>
             <div className={classes.moviesContainer}>
-                {finalMovieList.map((movie, index) => {
-                    return (
-                        <MovieCard
-                            key={movie.movieDetails.id}
-                            movieDetails={movie.movieDetails}
-                            movieIndex={index}
-                        />
-                    );
-                })}
+                {finalMovieList
+                    .filter((movie) => movie.movieDetails)
+                    .map((movie, index) => {
+                        return (
+                            <MovieCard
+                                key={movie.movieDetails.id}
+                                movieDetails={movie.movieDetails}
+                                movieIndex={index}
+                                filteredMovies={finalMovieList.filter(
+                                    (m) => m.movieDetails
+                                )}
+                                selectedGenre={selectedGenre}
+                            />
+                        );
+                    })}
             </div>
 
             {finalMovieList.length !== 0 && (
